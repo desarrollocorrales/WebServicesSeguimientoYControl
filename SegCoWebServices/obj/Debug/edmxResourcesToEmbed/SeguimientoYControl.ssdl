@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SegCoModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="SegCoModelStoreContainer">
+    <EntitySet Name="articulos" EntityType="SegCoModel.Store.articulos" store:Type="Tables" Schema="seguimiento_acc" />
+    <EntitySet Name="catalog_unidades" EntityType="SegCoModel.Store.catalog_unidades" store:Type="Tables" Schema="seguimiento_acc" />
+    <EntitySet Name="etiquetas" EntityType="SegCoModel.Store.etiquetas" store:Type="Tables" Schema="seguimiento_acc" />
+    <AssociationSet Name="fk_clave_articulo" Association="SegCoModel.Store.fk_clave_articulo">
+      <End Role="articulos" EntitySet="articulos" />
+      <End Role="etiquetas" EntitySet="etiquetas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="articulos">
+    <Key>
+      <PropertyRef Name="clave" />
+    </Key>
+    <Property Name="clave" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="articulo" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="dias_caducidad" Type="int" Nullable="false" />
+    <Property Name="id_bodega" Type="int" Nullable="false" />
+    <Property Name="peso_variado" Type="bit" Nullable="false" />
+    <Property Name="parcial" Type="bit" Nullable="false" />
+    <Property Name="leyenda" Type="bit" Nullable="false" />
+    <Property Name="cantidad_fija" Type="int" />
+    <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="piezas" Type="int" />
+  </EntityType>
+  <EntityType Name="catalog_unidades">
+    <Key>
+      <PropertyRef Name="unidad" />
+    </Key>
+    <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="etiquetas">
+    <Key>
+      <PropertyRef Name="id_etiqueta" />
+    </Key>
+    <Property Name="id_etiqueta" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="numero_etiqueta" Type="varchar" MaxLength="14" />
+    <Property Name="tipo_etiqueta" Type="char" Nullable="false" MaxLength="1" />
+    <Property Name="id_proveedor" Type="int" />
+    <Property Name="id_lote" Type="uint" />
+    <Property Name="id_pedido" Type="uint" />
+    <Property Name="clave_articulo" Type="varchar" Nullable="false" MaxLength="6" />
+    <Property Name="fecha_empaque" Type="datetime" Nullable="false" />
+    <Property Name="fecha_caducidad" Type="datetime" Nullable="false" />
+    <Property Name="id_bodega" Type="uint" Nullable="false" />
+    <Property Name="id_usuario" Type="uint" Nullable="false" />
+    <Property Name="cantidad" Type="decimal" Nullable="false" Scale="3" />
+    <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="piezas" Type="uint" />
+    <Property Name="estatus" Type="char" Nullable="false" MaxLength="1" />
+    <Property Name="tipo_salida" Type="char" MaxLength="2" />
+    <Property Name="fecha_recepcion" Type="date" />
+    <Property Name="fecha_entrega" Type="date" />
+  </EntityType>
+  <Association Name="fk_clave_articulo">
+    <End Role="articulos" Type="SegCoModel.Store.articulos" Multiplicity="1" />
+    <End Role="etiquetas" Type="SegCoModel.Store.etiquetas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="articulos">
+        <PropertyRef Name="clave" />
+      </Principal>
+      <Dependent Role="etiquetas">
+        <PropertyRef Name="clave_articulo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

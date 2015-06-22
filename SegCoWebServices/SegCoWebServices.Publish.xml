@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="D:\Github\WebServicesSeguimientoYControl\SegCoWebServices\Publish" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Perfil1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Global.asax" publishTime="06/22/2015 09:17:11" />
+    <file relUrl="SegConService.svc" publishTime="06/22/2015 12:04:09" />
+    <file relUrl="bin/SegCoWebServices.pdb" publishTime="06/22/2015 12:40:33" />
+    <file relUrl="Web.config" publishTime="06/22/2015 12:48:51" />
+    <file relUrl="bin/SegCoWebServices.dll" publishTime="06/22/2015 12:40:33" />
+  </publishProfile>
+</publishData>

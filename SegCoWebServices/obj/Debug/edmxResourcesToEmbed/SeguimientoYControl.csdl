@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SegCoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="SegCoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="articulos" EntityType="SegCoModel.articulos" />
+    <EntitySet Name="catalog_unidades" EntityType="SegCoModel.catalog_unidades" />
+    <EntitySet Name="etiquetas" EntityType="SegCoModel.etiquetas" />
+    <AssociationSet Name="fk_clave_articulo" Association="SegCoModel.fk_clave_articulo">
+      <End Role="articulos" EntitySet="articulos" />
+      <End Role="etiquetas" EntitySet="etiquetas" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="articulos">
+    <Key>
+      <PropertyRef Name="clave" />
+    </Key>
+    <Property Name="clave" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+    <Property Name="articulo" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="dias_caducidad" Type="Int32" Nullable="false" />
+    <Property Name="id_bodega" Type="Int32" Nullable="false" />
+    <Property Name="peso_variado" Type="Boolean" Nullable="false" />
+    <Property Name="parcial" Type="Boolean" Nullable="false" />
+    <Property Name="leyenda" Type="Boolean" Nullable="false" />
+    <Property Name="cantidad_fija" Type="Int32" />
+    <Property Name="unidad" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="piezas" Type="Int32" />
+    <NavigationProperty Name="etiquetas" Relationship="SegCoModel.fk_clave_articulo" FromRole="articulos" ToRole="etiquetas" />
+  </EntityType>
+  <EntityType Name="catalog_unidades">
+    <Key>
+      <PropertyRef Name="unidad" />
+    </Key>
+    <Property Name="unidad" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="etiquetas">
+    <Key>
+      <PropertyRef Name="id_etiqueta" />
+    </Key>
+    <Property Name="id_etiqueta" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="numero_etiqueta" Type="String" MaxLength="14" Unicode="false" FixedLength="false" />
+    <Property Name="tipo_etiqueta" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+    <Property Name="id_proveedor" Type="Int32" />
+    <Property Name="id_lote" Type="Int64" />
+    <Property Name="id_pedido" Type="Int64" />
+    <Property Name="clave_articulo" Type="String" Nullable="false" MaxLength="6" Unicode="false" FixedLength="false" />
+    <Property Name="fecha_empaque" Type="DateTime" Nullable="false" />
+    <Property Name="fecha_caducidad" Type="DateTime" Nullable="false" />
+    <Property Name="id_bodega" Type="Int64" Nullable="false" />
+    <Property Name="id_usuario" Type="Int64" Nullable="false" />
+    <Property Name="cantidad" Type="Decimal" Nullable="false" />
+    <Property Name="unidad" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
+    <Property Name="piezas" Type="Int64" />
+    <Property Name="estatus" Type="String" Nullable="false" MaxLength="1" Unicode="false" FixedLength="false" />
+    <Property Name="tipo_salida" Type="String" MaxLength="2" Unicode="false" FixedLength="false" />
+    <Property Name="fecha_recepcion" Type="DateTime" />
+    <Property Name="fecha_entrega" Type="DateTime" />
+    <NavigationProperty Name="articulos" Relationship="SegCoModel.fk_clave_articulo" FromRole="etiquetas" ToRole="articulos" />
+  </EntityType>
+  <Association Name="fk_clave_articulo">
+    <End Role="articulos" Type="SegCoModel.articulos" Multiplicity="1" />
+    <End Role="etiquetas" Type="SegCoModel.etiquetas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="articulos">
+        <PropertyRef Name="clave" />
+      </Principal>
+      <Dependent Role="etiquetas">
+        <PropertyRef Name="clave_articulo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

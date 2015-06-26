@@ -4,14 +4,23 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SegCoModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="SegCoModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="SegCoModelStoreContainer">
           <EntitySet Name="articulos" EntityType="SegCoModel.Store.articulos" store:Type="Tables" Schema="seguimiento_acc" />
-          <EntitySet Name="catalog_unidades" EntityType="SegCoModel.Store.catalog_unidades" store:Type="Tables" Schema="seguimiento_acc" />
           <EntitySet Name="etiquetas" EntityType="SegCoModel.Store.etiquetas" store:Type="Tables" Schema="seguimiento_acc" />
+          <EntitySet Name="paquetes" EntityType="SegCoModel.Store.paquetes" store:Type="Tables" Schema="seguimiento_acc" />
+          <EntitySet Name="paquetes_det" EntityType="SegCoModel.Store.paquetes_det" store:Type="Tables" Schema="seguimiento_acc" />
           <AssociationSet Name="fk_clave_articulo" Association="SegCoModel.Store.fk_clave_articulo">
             <End Role="articulos" EntitySet="articulos" />
             <End Role="etiquetas" EntitySet="etiquetas" />
+          </AssociationSet>
+          <AssociationSet Name="fk_etiquetas" Association="SegCoModel.Store.fk_etiquetas">
+            <End Role="etiquetas" EntitySet="etiquetas" />
+            <End Role="paquetes_det" EntitySet="paquetes_det" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paquetes" Association="SegCoModel.Store.fk_paquetes">
+            <End Role="paquetes" EntitySet="paquetes" />
+            <End Role="paquetes_det" EntitySet="paquetes_det" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="articulos">
@@ -28,12 +37,6 @@
           <Property Name="cantidad_fija" Type="int" />
           <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="10" />
           <Property Name="piezas" Type="int" />
-        </EntityType>
-        <EntityType Name="catalog_unidades">
-          <Key>
-            <PropertyRef Name="unidad" />
-          </Key>
-          <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="10" />
         </EntityType>
         <EntityType Name="etiquetas">
           <Key>
@@ -58,6 +61,28 @@
           <Property Name="fecha_recepcion" Type="date" />
           <Property Name="fecha_entrega" Type="date" />
         </EntityType>
+        <EntityType Name="paquetes">
+          <Key>
+            <PropertyRef Name="id_paquete" />
+          </Key>
+          <Property Name="id_paquete" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="numero_etiqueta" Type="varchar" MaxLength="14" />
+          <Property Name="estatus" Type="char" Nullable="false" MaxLength="1" />
+          <Property Name="cantidad" Type="decimal" Nullable="false" Scale="3" />
+          <Property Name="unidad" Type="varchar" Nullable="false" MaxLength="10" />
+          <Property Name="id_pedido" Type="int" Nullable="false" />
+          <Property Name="fecha_creacion" Type="datetime" Nullable="false" />
+          <Property Name="fecha_caducidad" Type="datetime" Nullable="false" />
+          <Property Name="clave_articulo" Type="varchar" MaxLength="6" />
+        </EntityType>
+        <EntityType Name="paquetes_det">
+          <Key>
+            <PropertyRef Name="id_detalle" />
+          </Key>
+          <Property Name="id_detalle" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="id_paquete" Type="int" Nullable="false" />
+          <Property Name="id_etiqueta" Type="uint" Nullable="false" />
+        </EntityType>
         <Association Name="fk_clave_articulo">
           <End Role="articulos" Type="SegCoModel.Store.articulos" Multiplicity="1" />
           <End Role="etiquetas" Type="SegCoModel.Store.etiquetas" Multiplicity="*" />
@@ -70,18 +95,50 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Association Name="fk_etiquetas">
+          <End Role="etiquetas" Type="SegCoModel.Store.etiquetas" Multiplicity="1" />
+          <End Role="paquetes_det" Type="SegCoModel.Store.paquetes_det" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="etiquetas">
+              <PropertyRef Name="id_etiqueta" />
+            </Principal>
+            <Dependent Role="paquetes_det">
+              <PropertyRef Name="id_etiqueta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paquetes">
+          <End Role="paquetes" Type="SegCoModel.Store.paquetes" Multiplicity="1" />
+          <End Role="paquetes_det" Type="SegCoModel.Store.paquetes_det" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paquetes">
+              <PropertyRef Name="id_paquete" />
+            </Principal>
+            <Dependent Role="paquetes_det">
+              <PropertyRef Name="id_paquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SegCoModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="SegCoEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="articulos" EntityType="SegCoModel.articulos" />
-          <EntitySet Name="catalog_unidades" EntityType="SegCoModel.catalog_unidades" />
           <EntitySet Name="etiquetas" EntityType="SegCoModel.etiquetas" />
           <AssociationSet Name="fk_clave_articulo" Association="SegCoModel.fk_clave_articulo">
             <End Role="articulos" EntitySet="articulos" />
             <End Role="etiquetas" EntitySet="etiquetas" />
+          </AssociationSet>
+          <EntitySet Name="paquetes" EntityType="SegCoModel.paquetes" />
+          <EntitySet Name="paquetes_det" EntityType="SegCoModel.paquetes_det" />
+          <AssociationSet Name="fk_etiquetas" Association="SegCoModel.fk_etiquetas">
+            <End Role="etiquetas" EntitySet="etiquetas" />
+            <End Role="paquetes_det" EntitySet="paquetes_det" />
+          </AssociationSet>
+          <AssociationSet Name="fk_paquetes" Association="SegCoModel.fk_paquetes">
+            <End Role="paquetes" EntitySet="paquetes" />
+            <End Role="paquetes_det" EntitySet="paquetes_det" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="articulos">
@@ -99,12 +156,6 @@
           <Property Name="unidad" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
           <Property Name="piezas" Type="Int32" />
           <NavigationProperty Name="etiquetas" Relationship="SegCoModel.fk_clave_articulo" FromRole="articulos" ToRole="etiquetas" />
-        </EntityType>
-        <EntityType Name="catalog_unidades">
-          <Key>
-            <PropertyRef Name="unidad" />
-          </Key>
-          <Property Name="unidad" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="false" />
         </EntityType>
         <EntityType Name="etiquetas">
           <Key>
@@ -129,6 +180,7 @@
           <Property Name="fecha_recepcion" Type="DateTime" />
           <Property Name="fecha_entrega" Type="DateTime" />
           <NavigationProperty Name="articulos" Relationship="SegCoModel.fk_clave_articulo" FromRole="etiquetas" ToRole="articulos" />
+          <NavigationProperty Name="paquetes_det" Relationship="SegCoModel.fk_etiquetas" FromRole="etiquetas" ToRole="paquetes_det" />
         </EntityType>
         <Association Name="fk_clave_articulo">
           <End Role="articulos" Type="SegCoModel.articulos" Multiplicity="1" />
@@ -139,6 +191,55 @@
             </Principal>
             <Dependent Role="etiquetas">
               <PropertyRef Name="clave_articulo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="paquetes">
+          <Key>
+            <PropertyRef Name="id_paquete" />
+          </Key>
+          <Property Type="Int32" Name="id_paquete" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="numero_etiqueta" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="estatus" Nullable="false" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Type="Decimal" Name="cantidad" Nullable="false" />
+          <Property Type="String" Name="unidad" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="id_pedido" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_creacion" Nullable="false" />
+          <Property Type="DateTime" Name="fecha_caducidad" Nullable="false" />
+          <Property Type="String" Name="clave_articulo" MaxLength="6" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="paquetes_det" Relationship="SegCoModel.fk_paquetes" FromRole="paquetes" ToRole="paquetes_det" />
+        </EntityType>
+        <EntityType Name="paquetes_det">
+          <Key>
+            <PropertyRef Name="id_detalle" />
+          </Key>
+          <Property Type="Int32" Name="id_detalle" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="id_paquete" Nullable="false" />
+          <Property Type="Int64" Name="id_etiqueta" Nullable="false" />
+          <NavigationProperty Name="etiquetas" Relationship="SegCoModel.fk_etiquetas" FromRole="paquetes_det" ToRole="etiquetas" />
+          <NavigationProperty Name="paquetes" Relationship="SegCoModel.fk_paquetes" FromRole="paquetes_det" ToRole="paquetes" />
+        </EntityType>
+        <Association Name="fk_etiquetas">
+          <End Type="SegCoModel.etiquetas" Role="etiquetas" Multiplicity="1" />
+          <End Type="SegCoModel.paquetes_det" Role="paquetes_det" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="etiquetas">
+              <PropertyRef Name="id_etiqueta" />
+            </Principal>
+            <Dependent Role="paquetes_det">
+              <PropertyRef Name="id_etiqueta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_paquetes">
+          <End Type="SegCoModel.paquetes" Role="paquetes" Multiplicity="1" />
+          <End Type="SegCoModel.paquetes_det" Role="paquetes_det" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="paquetes">
+              <PropertyRef Name="id_paquete" />
+            </Principal>
+            <Dependent Role="paquetes_det">
+              <PropertyRef Name="id_paquete" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -161,13 +262,6 @@
                 <ScalarProperty Name="cantidad_fija" ColumnName="cantidad_fija" />
                 <ScalarProperty Name="unidad" ColumnName="unidad" />
                 <ScalarProperty Name="piezas" ColumnName="piezas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="catalog_unidades">
-            <EntityTypeMapping TypeName="SegCoModel.catalog_unidades">
-              <MappingFragment StoreEntitySet="catalog_unidades">
-                <ScalarProperty Name="unidad" ColumnName="unidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -195,6 +289,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="paquetes">
+            <EntityTypeMapping TypeName="SegCoModel.paquetes">
+              <MappingFragment StoreEntitySet="paquetes">
+                <ScalarProperty Name="clave_articulo" ColumnName="clave_articulo" />
+                <ScalarProperty Name="fecha_caducidad" ColumnName="fecha_caducidad" />
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="id_pedido" ColumnName="id_pedido" />
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="estatus" ColumnName="estatus" />
+                <ScalarProperty Name="numero_etiqueta" ColumnName="numero_etiqueta" />
+                <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="paquetes_det">
+            <EntityTypeMapping TypeName="SegCoModel.paquetes_det">
+              <MappingFragment StoreEntitySet="paquetes_det">
+                <ScalarProperty Name="id_etiqueta" ColumnName="id_etiqueta" />
+                <ScalarProperty Name="id_paquete" ColumnName="id_paquete" />
+                <ScalarProperty Name="id_detalle" ColumnName="id_detalle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -217,11 +335,20 @@
     <Diagrams>
       <Diagram Name="SeguimientoYControl">
         <EntityTypeShape EntityType="SegCoModel.articulos" Width="1.5" PointX="1.75" PointY="0.75" Height="2.7427376302083335" IsExpanded="true" />
-        <EntityTypeShape EntityType="SegCoModel.catalog_unidades" Width="1.5" PointX="5.75" PointY="0.75" Height="1.0992643229166674" IsExpanded="true" />
         <EntityTypeShape EntityType="SegCoModel.etiquetas" Width="1.5" PointX="3.875" PointY="0.5" Height="4.0575162760416656" IsExpanded="true" />
         <AssociationConnector Association="SegCoModel.fk_clave_articulo" ManuallyRouted="false">
           <ConnectorPoint PointX="3.25" PointY="2.1213688151041667" />
           <ConnectorPoint PointX="3.875" PointY="2.1213688151041667" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="SegCoModel.paquetes" Width="1.5" PointX="6" PointY="0.5" Height="2.5783902994791665" />
+        <EntityTypeShape EntityType="SegCoModel.paquetes_det" Width="1.5" PointX="6.375" PointY="4.125" Height="1.7566536458333317" />
+        <AssociationConnector Association="SegCoModel.fk_etiquetas" >
+          <ConnectorPoint PointX="5.375" PointY="4.4234318033854167" />
+          <ConnectorPoint PointX="6.375" PointY="4.4234318033854167" />
+        </AssociationConnector>
+        <AssociationConnector Association="SegCoModel.fk_paquetes" >
+          <ConnectorPoint PointX="6.9375" PointY="3.0783902994791665" />
+          <ConnectorPoint PointX="6.9375" PointY="4.125" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

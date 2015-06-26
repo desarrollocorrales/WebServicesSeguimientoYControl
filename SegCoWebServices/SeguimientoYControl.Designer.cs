@@ -20,6 +20,8 @@ using System.Xml.Serialization;
 #region Metadatos de relaciones en EDM
 
 [assembly: EdmRelationshipAttribute("SegCoModel", "fk_clave_articulo", "articulos", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SegCoWebServices.articulos), "etiquetas", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SegCoWebServices.etiquetas), true)]
+[assembly: EdmRelationshipAttribute("SegCoModel", "fk_etiquetas", "etiquetas", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SegCoWebServices.etiquetas), "paquetes_det", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SegCoWebServices.paquetes_det), true)]
+[assembly: EdmRelationshipAttribute("SegCoModel", "fk_paquetes", "paquetes", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SegCoWebServices.paquetes), "paquetes_det", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SegCoWebServices.paquetes_det), true)]
 
 #endregion
 
@@ -90,22 +92,6 @@ namespace SegCoWebServices
         /// <summary>
         /// No hay documentación de metadatos disponible.
         /// </summary>
-        public ObjectSet<catalog_unidades> catalog_unidades
-        {
-            get
-            {
-                if ((_catalog_unidades == null))
-                {
-                    _catalog_unidades = base.CreateObjectSet<catalog_unidades>("catalog_unidades");
-                }
-                return _catalog_unidades;
-            }
-        }
-        private ObjectSet<catalog_unidades> _catalog_unidades;
-    
-        /// <summary>
-        /// No hay documentación de metadatos disponible.
-        /// </summary>
         public ObjectSet<etiquetas> etiquetas
         {
             get
@@ -118,6 +104,38 @@ namespace SegCoWebServices
             }
         }
         private ObjectSet<etiquetas> _etiquetas;
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        public ObjectSet<paquetes> paquetes
+        {
+            get
+            {
+                if ((_paquetes == null))
+                {
+                    _paquetes = base.CreateObjectSet<paquetes>("paquetes");
+                }
+                return _paquetes;
+            }
+        }
+        private ObjectSet<paquetes> _paquetes;
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        public ObjectSet<paquetes_det> paquetes_det
+        {
+            get
+            {
+                if ((_paquetes_det == null))
+                {
+                    _paquetes_det = base.CreateObjectSet<paquetes_det>("paquetes_det");
+                }
+                return _paquetes_det;
+            }
+        }
+        private ObjectSet<paquetes_det> _paquetes_det;
 
         #endregion
 
@@ -132,19 +150,27 @@ namespace SegCoWebServices
         }
     
         /// <summary>
-        /// Método desusado para agregar un nuevo objeto al EntitySet catalog_unidades. Considere la posibilidad de usar el método .Add de la propiedad ObjectSet&lt;T&gt; asociada.
-        /// </summary>
-        public void AddTocatalog_unidades(catalog_unidades catalog_unidades)
-        {
-            base.AddObject("catalog_unidades", catalog_unidades);
-        }
-    
-        /// <summary>
         /// Método desusado para agregar un nuevo objeto al EntitySet etiquetas. Considere la posibilidad de usar el método .Add de la propiedad ObjectSet&lt;T&gt; asociada.
         /// </summary>
         public void AddToetiquetas(etiquetas etiquetas)
         {
             base.AddObject("etiquetas", etiquetas);
+        }
+    
+        /// <summary>
+        /// Método desusado para agregar un nuevo objeto al EntitySet paquetes. Considere la posibilidad de usar el método .Add de la propiedad ObjectSet&lt;T&gt; asociada.
+        /// </summary>
+        public void AddTopaquetes(paquetes paquetes)
+        {
+            base.AddObject("paquetes", paquetes);
+        }
+    
+        /// <summary>
+        /// Método desusado para agregar un nuevo objeto al EntitySet paquetes_det. Considere la posibilidad de usar el método .Add de la propiedad ObjectSet&lt;T&gt; asociada.
+        /// </summary>
+        public void AddTopaquetes_det(paquetes_det paquetes_det)
+        {
+            base.AddObject("paquetes_det", paquetes_det);
         }
 
         #endregion
@@ -466,63 +492,6 @@ namespace SegCoWebServices
 
         #endregion
 
-    }
-    
-    /// <summary>
-    /// No hay documentación de metadatos disponible.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="SegCoModel", Name="catalog_unidades")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class catalog_unidades : EntityObject
-    {
-        #region Método de generador
-    
-        /// <summary>
-        /// Crear un nuevo objeto catalog_unidades.
-        /// </summary>
-        /// <param name="unidad">Valor inicial de la propiedad unidad.</param>
-        public static catalog_unidades Createcatalog_unidades(global::System.String unidad)
-        {
-            catalog_unidades catalog_unidades = new catalog_unidades();
-            catalog_unidades.unidad = unidad;
-            return catalog_unidades;
-        }
-
-        #endregion
-
-        #region Propiedades primitivas
-    
-        /// <summary>
-        /// No hay documentación de metadatos disponible.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String unidad
-        {
-            get
-            {
-                return _unidad;
-            }
-            set
-            {
-                if (_unidad != value)
-                {
-                    OnunidadChanging(value);
-                    ReportPropertyChanging("unidad");
-                    _unidad = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("unidad");
-                    OnunidadChanged();
-                }
-            }
-        }
-        private global::System.String _unidad;
-        partial void OnunidadChanging(global::System.String value);
-        partial void OnunidadChanged();
-
-        #endregion
-
-    
     }
     
     /// <summary>
@@ -1042,6 +1011,504 @@ namespace SegCoWebServices
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<articulos>("SegCoModel.fk_clave_articulo", "articulos", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SegCoModel", "fk_etiquetas", "paquetes_det")]
+        public EntityCollection<paquetes_det> paquetes_det
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paquetes_det>("SegCoModel.fk_etiquetas", "paquetes_det");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paquetes_det>("SegCoModel.fk_etiquetas", "paquetes_det", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No hay documentación de metadatos disponible.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SegCoModel", Name="paquetes")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class paquetes : EntityObject
+    {
+        #region Método de generador
+    
+        /// <summary>
+        /// Crear un nuevo objeto paquetes.
+        /// </summary>
+        /// <param name="id_paquete">Valor inicial de la propiedad id_paquete.</param>
+        /// <param name="estatus">Valor inicial de la propiedad estatus.</param>
+        /// <param name="cantidad">Valor inicial de la propiedad cantidad.</param>
+        /// <param name="unidad">Valor inicial de la propiedad unidad.</param>
+        /// <param name="id_pedido">Valor inicial de la propiedad id_pedido.</param>
+        /// <param name="fecha_creacion">Valor inicial de la propiedad fecha_creacion.</param>
+        /// <param name="fecha_caducidad">Valor inicial de la propiedad fecha_caducidad.</param>
+        public static paquetes Createpaquetes(global::System.Int32 id_paquete, global::System.String estatus, global::System.Decimal cantidad, global::System.String unidad, global::System.Int32 id_pedido, global::System.DateTime fecha_creacion, global::System.DateTime fecha_caducidad)
+        {
+            paquetes paquetes = new paquetes();
+            paquetes.id_paquete = id_paquete;
+            paquetes.estatus = estatus;
+            paquetes.cantidad = cantidad;
+            paquetes.unidad = unidad;
+            paquetes.id_pedido = id_pedido;
+            paquetes.fecha_creacion = fecha_creacion;
+            paquetes.fecha_caducidad = fecha_caducidad;
+            return paquetes;
+        }
+
+        #endregion
+
+        #region Propiedades primitivas
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id_paquete
+        {
+            get
+            {
+                return _id_paquete;
+            }
+            set
+            {
+                if (_id_paquete != value)
+                {
+                    Onid_paqueteChanging(value);
+                    ReportPropertyChanging("id_paquete");
+                    _id_paquete = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id_paquete");
+                    Onid_paqueteChanged();
+                }
+            }
+        }
+        private global::System.Int32 _id_paquete;
+        partial void Onid_paqueteChanging(global::System.Int32 value);
+        partial void Onid_paqueteChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String numero_etiqueta
+        {
+            get
+            {
+                return _numero_etiqueta;
+            }
+            set
+            {
+                Onnumero_etiquetaChanging(value);
+                ReportPropertyChanging("numero_etiqueta");
+                _numero_etiqueta = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("numero_etiqueta");
+                Onnumero_etiquetaChanged();
+            }
+        }
+        private global::System.String _numero_etiqueta;
+        partial void Onnumero_etiquetaChanging(global::System.String value);
+        partial void Onnumero_etiquetaChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String estatus
+        {
+            get
+            {
+                return _estatus;
+            }
+            set
+            {
+                OnestatusChanging(value);
+                ReportPropertyChanging("estatus");
+                _estatus = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("estatus");
+                OnestatusChanged();
+            }
+        }
+        private global::System.String _estatus;
+        partial void OnestatusChanging(global::System.String value);
+        partial void OnestatusChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal cantidad
+        {
+            get
+            {
+                return _cantidad;
+            }
+            set
+            {
+                OncantidadChanging(value);
+                ReportPropertyChanging("cantidad");
+                _cantidad = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("cantidad");
+                OncantidadChanged();
+            }
+        }
+        private global::System.Decimal _cantidad;
+        partial void OncantidadChanging(global::System.Decimal value);
+        partial void OncantidadChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String unidad
+        {
+            get
+            {
+                return _unidad;
+            }
+            set
+            {
+                OnunidadChanging(value);
+                ReportPropertyChanging("unidad");
+                _unidad = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("unidad");
+                OnunidadChanged();
+            }
+        }
+        private global::System.String _unidad;
+        partial void OnunidadChanging(global::System.String value);
+        partial void OnunidadChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id_pedido
+        {
+            get
+            {
+                return _id_pedido;
+            }
+            set
+            {
+                Onid_pedidoChanging(value);
+                ReportPropertyChanging("id_pedido");
+                _id_pedido = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("id_pedido");
+                Onid_pedidoChanged();
+            }
+        }
+        private global::System.Int32 _id_pedido;
+        partial void Onid_pedidoChanging(global::System.Int32 value);
+        partial void Onid_pedidoChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime fecha_creacion
+        {
+            get
+            {
+                return _fecha_creacion;
+            }
+            set
+            {
+                Onfecha_creacionChanging(value);
+                ReportPropertyChanging("fecha_creacion");
+                _fecha_creacion = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("fecha_creacion");
+                Onfecha_creacionChanged();
+            }
+        }
+        private global::System.DateTime _fecha_creacion;
+        partial void Onfecha_creacionChanging(global::System.DateTime value);
+        partial void Onfecha_creacionChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime fecha_caducidad
+        {
+            get
+            {
+                return _fecha_caducidad;
+            }
+            set
+            {
+                Onfecha_caducidadChanging(value);
+                ReportPropertyChanging("fecha_caducidad");
+                _fecha_caducidad = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("fecha_caducidad");
+                Onfecha_caducidadChanged();
+            }
+        }
+        private global::System.DateTime _fecha_caducidad;
+        partial void Onfecha_caducidadChanging(global::System.DateTime value);
+        partial void Onfecha_caducidadChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String clave_articulo
+        {
+            get
+            {
+                return _clave_articulo;
+            }
+            set
+            {
+                Onclave_articuloChanging(value);
+                ReportPropertyChanging("clave_articulo");
+                _clave_articulo = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("clave_articulo");
+                Onclave_articuloChanged();
+            }
+        }
+        private global::System.String _clave_articulo;
+        partial void Onclave_articuloChanging(global::System.String value);
+        partial void Onclave_articuloChanged();
+
+        #endregion
+
+    
+        #region Propiedades de navegación
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SegCoModel", "fk_paquetes", "paquetes_det")]
+        public EntityCollection<paquetes_det> paquetes_det
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<paquetes_det>("SegCoModel.fk_paquetes", "paquetes_det");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<paquetes_det>("SegCoModel.fk_paquetes", "paquetes_det", value);
+                }
+            }
+        }
+
+        #endregion
+
+    }
+    
+    /// <summary>
+    /// No hay documentación de metadatos disponible.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="SegCoModel", Name="paquetes_det")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class paquetes_det : EntityObject
+    {
+        #region Método de generador
+    
+        /// <summary>
+        /// Crear un nuevo objeto paquetes_det.
+        /// </summary>
+        /// <param name="id_detalle">Valor inicial de la propiedad id_detalle.</param>
+        /// <param name="id_paquete">Valor inicial de la propiedad id_paquete.</param>
+        /// <param name="id_etiqueta">Valor inicial de la propiedad id_etiqueta.</param>
+        public static paquetes_det Createpaquetes_det(global::System.Int32 id_detalle, global::System.Int32 id_paquete, global::System.Int64 id_etiqueta)
+        {
+            paquetes_det paquetes_det = new paquetes_det();
+            paquetes_det.id_detalle = id_detalle;
+            paquetes_det.id_paquete = id_paquete;
+            paquetes_det.id_etiqueta = id_etiqueta;
+            return paquetes_det;
+        }
+
+        #endregion
+
+        #region Propiedades primitivas
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id_detalle
+        {
+            get
+            {
+                return _id_detalle;
+            }
+            set
+            {
+                if (_id_detalle != value)
+                {
+                    Onid_detalleChanging(value);
+                    ReportPropertyChanging("id_detalle");
+                    _id_detalle = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id_detalle");
+                    Onid_detalleChanged();
+                }
+            }
+        }
+        private global::System.Int32 _id_detalle;
+        partial void Onid_detalleChanging(global::System.Int32 value);
+        partial void Onid_detalleChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id_paquete
+        {
+            get
+            {
+                return _id_paquete;
+            }
+            set
+            {
+                Onid_paqueteChanging(value);
+                ReportPropertyChanging("id_paquete");
+                _id_paquete = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("id_paquete");
+                Onid_paqueteChanged();
+            }
+        }
+        private global::System.Int32 _id_paquete;
+        partial void Onid_paqueteChanging(global::System.Int32 value);
+        partial void Onid_paqueteChanged();
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 id_etiqueta
+        {
+            get
+            {
+                return _id_etiqueta;
+            }
+            set
+            {
+                Onid_etiquetaChanging(value);
+                ReportPropertyChanging("id_etiqueta");
+                _id_etiqueta = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("id_etiqueta");
+                Onid_etiquetaChanged();
+            }
+        }
+        private global::System.Int64 _id_etiqueta;
+        partial void Onid_etiquetaChanging(global::System.Int64 value);
+        partial void Onid_etiquetaChanged();
+
+        #endregion
+
+    
+        #region Propiedades de navegación
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SegCoModel", "fk_etiquetas", "etiquetas")]
+        public etiquetas etiquetas
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<etiquetas>("SegCoModel.fk_etiquetas", "etiquetas").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<etiquetas>("SegCoModel.fk_etiquetas", "etiquetas").Value = value;
+            }
+        }
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<etiquetas> etiquetasReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<etiquetas>("SegCoModel.fk_etiquetas", "etiquetas");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<etiquetas>("SegCoModel.fk_etiquetas", "etiquetas", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("SegCoModel", "fk_paquetes", "paquetes")]
+        public paquetes paquetes
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paquetes>("SegCoModel.fk_paquetes", "paquetes").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paquetes>("SegCoModel.fk_paquetes", "paquetes").Value = value;
+            }
+        }
+        /// <summary>
+        /// No hay documentación de metadatos disponible.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<paquetes> paquetesReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<paquetes>("SegCoModel.fk_paquetes", "paquetes");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<paquetes>("SegCoModel.fk_paquetes", "paquetes", value);
                 }
             }
         }

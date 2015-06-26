@@ -2,3 +2,4 @@ D:\Github\WebServicesSeguimientoYControl\SegCoWebServices\bin\SegCoWebServices.d
 D:\Github\WebServicesSeguimientoYControl\SegCoWebServices\bin\SegCoWebServices.pdb
 D:\Github\WebServicesSeguimientoYControl\SegCoWebServices\obj\Debug\SegCoWebServices.dll
 D:\Github\WebServicesSeguimientoYControl\SegCoWebServices\obj\Debug\SegCoWebServices.pdb
+D:\Github\WebServicesSeguimientoYControl\SegCoWebServices\obj\Debug\SegCoWebServices.csprojResolveAssemblyReference.cache
